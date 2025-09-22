@@ -2,15 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
+import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import { LockIcon } from "lucide-react";
 import { siX } from "simple-icons";
@@ -18,7 +10,6 @@ import { siX } from "simple-icons";
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
   const handleXLogin = async () => {
     const supabase = createClient();
@@ -53,14 +44,7 @@ export default function LoginPage() {
           </div>
 
           <Card>
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Welcome to LockedIn</CardTitle>
-              <CardDescription>
-                Sign in to start sharing your locked-in status
-              </CardDescription>
-            </CardHeader>
-            <Separator />
-            <CardContent className="pt-6">
+            <CardContent>
               <div className="flex flex-col gap-4">
                 {error && (
                   <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20">

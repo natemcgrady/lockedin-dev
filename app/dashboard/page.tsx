@@ -6,7 +6,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { Home, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -65,7 +65,6 @@ export default async function DashboardPage() {
               href="/"
               className="flex items-center gap-2 hover:opacity-80 transition-opacity"
             >
-              <Home className="h-6 w-6" />
               <h1 className="text-2xl font-bold">LockedIn</h1>
             </Link>
             <div className="flex items-center gap-2">
