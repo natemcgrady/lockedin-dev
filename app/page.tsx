@@ -8,10 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
-import { Zap, Users, MessageSquare, ArrowRight } from "lucide-react";
+import { LockIcon, Users, MessageSquare, ArrowRight } from "lucide-react";
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -41,7 +40,7 @@ export default async function HomePage() {
           <div className="text-center space-y-8 mb-16">
             <div className="flex justify-center">
               <div className="p-4 rounded-full bg-primary/10">
-                <Zap className="h-12 w-12 text-primary" />
+                <LockIcon className="h-12 w-12 text-primary" />
               </div>
             </div>
             <div className="space-y-4">
@@ -49,9 +48,7 @@ export default async function HomePage() {
                 Are you <span className="text-primary">locked in</span>?
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Share your focus status with friends and stay accountable to
-                your goals. Let others know when you're in the zone and what
-                you're working on.
+                Let your friends know when you're locked in.
               </p>
             </div>
             <div className="flex justify-center">
@@ -65,11 +62,11 @@ export default async function HomePage() {
           </div>
 
           {/* Features Section */}
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
+          {/* <div className="grid md:grid-cols-3 gap-6 mb-16">
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-2">
-                  <Zap className="h-5 w-5 text-primary" />
+                  <LockIcon className="h-5 w-5 text-primary" />
                   <CardTitle>Status Sharing</CardTitle>
                 </div>
               </CardHeader>
@@ -108,23 +105,7 @@ export default async function HomePage() {
                 </CardDescription>
               </CardContent>
             </Card>
-          </div>
-
-          <Separator className="mb-16" />
-
-          {/* CTA Section */}
-          <div className="text-center space-y-6">
-            <h2 className="text-3xl font-bold">Ready to get locked in?</h2>
-            <p className="text-muted-foreground">
-              Join the community of focused individuals sharing their journey.
-            </p>
-            <Link href="/auth/login">
-              <Button size="lg" className="gap-2">
-                Start Your Journey
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
