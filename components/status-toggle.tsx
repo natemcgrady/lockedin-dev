@@ -70,28 +70,29 @@ export function StatusToggle({ profile }: StatusToggleProps) {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            {isLockedIn ? (
-              <LockIcon className="h-5 w-5 text-green-500" />
-            ) : (
-              <UnlockIcon className="h-5 w-5 text-gray-400" />
-            )}
-            Status
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {isLockedIn ? (
+                <LockIcon className="h-5 w-5 text-green-500" />
+              ) : (
+                <UnlockIcon className="h-5 w-5 text-gray-400" />
+              )}
+              Status
+            </div>
+            <div className="flex items-center space-x-3">
+              <Switch
+                id="locked-in"
+                checked={isLockedIn}
+                onCheckedChange={setIsLockedIn}
+                className="scale-125"
+              />
+              <Label htmlFor="locked-in" className="text-sm font-medium">
+                {isLockedIn ? "Locked in" : "Not locked in"}
+              </Label>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center justify-center space-x-3">
-            <Switch
-              id="locked-in"
-              checked={isLockedIn}
-              onCheckedChange={setIsLockedIn}
-              className="scale-125"
-            />
-            <Label htmlFor="locked-in" className="text-lg font-medium">
-              {isLockedIn ? "I'm locked in" : "I'm not locked in"}
-            </Label>
-          </div>
-
           <div className="space-y-2">
             <Label
               htmlFor="message"
