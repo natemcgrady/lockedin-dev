@@ -83,12 +83,9 @@ export default async function DashboardPage() {
               <CardTitle className="text-2xl">
                 Welcome back, {profile.display_name}!
               </CardTitle>
-              <p className="text-muted-foreground">
-                Manage your locked-in status and connect with others
-              </p>
             </CardHeader>
             <Separator />
-            <CardContent className="pt-6">
+            <CardContent>
               <DashboardTabs profile={profile} />
             </CardContent>
           </Card>

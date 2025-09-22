@@ -158,12 +158,16 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
                         {user.display_name.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold truncate">
-                          {user.display_name}
-                        </h3>
+                        <div className="flex items-center gap-1 min-w-0">
+                          <h3 className="font-semibold truncate">
+                            {user.display_name}
+                          </h3>
+                          <span className="truncate text-sm text-muted-foreground">
+                            @{user.username}
+                          </span>
+                        </div>
                         <Badge
                           variant={user.is_locked_in ? "default" : "secondary"}
                           className="shrink-0"
@@ -171,9 +175,6 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
                           {user.is_locked_in ? "Locked In" : "Not Locked In"}
                         </Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground truncate">
-                        @{user.username}
-                      </p>
                       {user.locked_in_message && (
                         <>
                           <Separator className="my-2" />

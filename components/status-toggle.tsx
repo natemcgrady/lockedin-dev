@@ -7,10 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
-import { Zap, ZapOff, MessageSquare } from "lucide-react";
+import { Zap, ZapOff, MessageSquare, LockIcon, UnlockIcon } from "lucide-react";
 
 interface StatusToggleProps {
   profile: {
@@ -74,11 +72,11 @@ export function StatusToggle({ profile }: StatusToggleProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             {isLockedIn ? (
-              <Zap className="h-5 w-5 text-green-500" />
+              <LockIcon className="h-5 w-5 text-green-500" />
             ) : (
-              <ZapOff className="h-5 w-5 text-gray-400" />
+              <UnlockIcon className="h-5 w-5 text-gray-400" />
             )}
-            Status Control
+            Status
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -94,27 +92,12 @@ export function StatusToggle({ profile }: StatusToggleProps) {
             </Label>
           </div>
 
-          <div className="flex justify-center">
-            <Badge
-              variant={isLockedIn ? "default" : "secondary"}
-              className="text-sm"
-            >
-              {isLockedIn ? "Currently Locked In" : "Currently Not Locked In"}
-            </Badge>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5" />
-            Status Message
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="message" className="text-sm font-medium">
+            <Label
+              htmlFor="message"
+              className="text-sm font-medium flex items-center gap-2"
+            >
+              <MessageSquare className="h-4 w-4" />
               What are you working on? (optional)
             </Label>
             <Textarea
