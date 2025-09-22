@@ -14,7 +14,18 @@ export async function GET(request: NextRequest) {
 
     console.log("📊 Route Handler - Exchange result:", { error });
 
-    if (!error) {
+    // Check if we have a valid session, even if exchangeCodeForSession returned an error
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    console.log("👤 Route Handler - User check:", {
+      user: user?.id,
+      userError,
+    });
+
+    if (user && !userError) {
       console.log(
         "✅ Route Handler - Successfully authenticated, redirecting to dashboard"
       );
