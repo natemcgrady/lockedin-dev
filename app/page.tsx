@@ -12,7 +12,16 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
 import { LockIcon, Users, MessageSquare, ArrowRight } from "lucide-react";
 
-export default async function HomePage() {
+interface HomePageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
+  // Handle OAuth callback if code is present
+  if (searchParams.code) {
+    redirect(`/auth/callback?code=${searchParams.code}`);
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
