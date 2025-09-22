@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { OAuthButton } from "@/components/oauth-button";
 import {
   Card,
   CardContent,
@@ -8,9 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ThemeToggle } from "@/components/theme-toggle";
-import Link from "next/link";
-import { LockIcon, Users, MessageSquare, ArrowRight } from "lucide-react";
+import { LockIcon, Users, MessageSquare } from "lucide-react";
 
 interface HomePageProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -28,12 +26,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <div className="min-h-svh bg-background">
-      {/* Header with theme toggle */}
+      {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">LockedIn</h1>
-            <ThemeToggle />
           </div>
         </div>
       </header>
@@ -56,12 +53,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </p>
             </div>
             <div className="flex justify-center">
-              <Link href="/auth/login">
-                <Button size="lg" className="text-lg px-8 py-6 gap-2">
-                  Get Started
-                  <ArrowRight className="h-5 w-5" />
-                </Button>
-              </Link>
+              <OAuthButton size="lg" className="text-lg px-8 py-6">
+                Lock In with X
+              </OAuthButton>
             </div>
           </div>
 

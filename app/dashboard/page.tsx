@@ -1,12 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { DashboardTabs } from "@/components/dashboard-tabs";
-import { LogoutButton } from "@/components/logout-button";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { UserMenu } from "@/components/user-menu";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { LogOut } from "lucide-react";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -68,8 +66,7 @@ export default async function DashboardPage() {
               <h1 className="text-2xl font-bold">LockedIn</h1>
             </Link>
             <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <LogoutButton />
+              <UserMenu user={profile} />
             </div>
           </div>
         </div>
