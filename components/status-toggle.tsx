@@ -128,7 +128,7 @@ export function StatusToggle({ profile }: StatusToggleProps) {
       <Button
         onClick={handleStatusUpdate}
         disabled={isLoading}
-        className="w-full"
+        className="w-full text-white dark:text-black"
         size="lg"
       >
         {isLoading ? "Updating..." : "Update Status"}

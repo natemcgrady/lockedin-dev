@@ -102,9 +102,6 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
             <Users className="h-5 w-5" />
             Find Users
           </CardTitle>
-          <CardDescription>
-            Search for other users and see their current locked-in status
-          </CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -120,9 +117,6 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
           <Users className="h-5 w-5" />
           Find Users
         </CardTitle>
-        <CardDescription>
-          Search for other users and see their current locked-in status
-        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="relative">

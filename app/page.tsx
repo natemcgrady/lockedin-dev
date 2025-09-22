@@ -23,7 +23,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">LockedIn</h1>
+            <h1 className="text-2xl font-bold">
+              Locked<span className="text-primary">In</span>
+            </h1>
           </div>
         </div>
       </header>
@@ -46,8 +48,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </p>
             </div>
             <div className="flex justify-center">
-              <OAuthButton size="lg" className="text-lg px-8 py-6">
-                Lock In
+              <OAuthButton
+                size="lg"
+                className="text-lg px-8 py-6 text-secondary-foreground"
+              >
+                Lock In with X
               </OAuthButton>
             </div>
           </div>

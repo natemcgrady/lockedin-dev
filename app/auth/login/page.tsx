@@ -40,7 +40,9 @@ export default function LoginPage() {
                 <LockIcon className="h-8 w-8 text-primary" />
               </div>
             </div>
-            <h1 className="text-3xl font-bold">LockedIn</h1>
+            <h1 className="text-3xl font-bold">
+              Locked<span className="text-primary">In</span>
+            </h1>
           </div>
 
           <Card>
