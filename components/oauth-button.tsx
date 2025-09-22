@@ -3,30 +3,43 @@
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { siX } from "simple-icons";
+import { siGithub, siX } from "simple-icons";
 
 interface OAuthButtonProps {
   size?: "default" | "sm" | "lg" | "icon";
+  provider?: "twitter" | "github";
   className?: string;
   children?: React.ReactNode;
 }
 
+const providerInfo = {
+  twitter: {
+    name: "𝕏",
+    icon: siX,
+  },
+  github: {
+    name: "GitHub",
+    icon: siGithub,
+  },
+};
+
 export function OAuthButton({
   size = "lg",
+  provider = "twitter",
   className = "",
   children,
 }: OAuthButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleXLogin = async () => {
+  const handleLogin = async () => {
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
 
     try {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: "twitter",
+        provider: provider,
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
         },
@@ -46,7 +59,7 @@ export function OAuthButton({
         </div>
       )}
       <Button
-        onClick={handleXLogin}
+        onClick={handleLogin}
         size={size}
         className={`gap-2 text-black ${className}`}
         disabled={isLoading}
@@ -57,9 +70,12 @@ export function OAuthButton({
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d={siX.path} />
+          <path d={providerInfo[provider].icon.path} />
         </svg>
-        {children || (isLoading ? "Connecting..." : "Continue with X")}
+        {children ||
+          (isLoading
+            ? "Connecting..."
+            : `Lock in with ${providerInfo[provider].name}`)}
       </Button>
     </div>
   );

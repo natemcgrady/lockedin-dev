@@ -47,13 +47,17 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 Let your friends know when you're locked in.
               </p>
             </div>
-            <div className="flex justify-center">
+            <div className="flex flex-col gap-2 items-center">
               <OAuthButton
+                provider="twitter"
                 size="lg"
                 className="text-lg px-8 py-6 text-white dark:text-black"
-              >
-                Lock In with X
-              </OAuthButton>
+              />
+              <OAuthButton
+                provider="github"
+                size="lg"
+                className="text-lg px-8 py-6 text-white dark:text-black"
+              />
             </div>
           </div>
         </div>
