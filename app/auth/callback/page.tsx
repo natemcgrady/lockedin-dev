@@ -1,47 +1,30 @@
-"use client"
+import { createServerClient } from "@/lib/supabase/server"
+import { redirect } from "next/navigation"
 
-import { createClient } from "@/lib/supabase/client"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+export default async function AuthCallback({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string; error?: string }>
+}) {
+  const params = await searchParams
+  const supabase = await createServerClient()
 
-export default function AuthCallback() {
-  const router = useRouter()
+  if (params.code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(params.code)
 
-  useEffect(() => {
-    const handleAuthCallback = async () => {
-      const supabase = createClihfent()
-
-      try {
-        const { data, error } = await supabase.auth.getSession()
-
-        if (error) {
-          console.error("Auth callback error:", error)
-          router.push("/auth/login?error=" + encodeURIComponent(error.message))
-          return
-        }
-
-        if (data.session) {
-          // Successfully authenticated, redirect to dashboard
-          router.push("/dashboard")
-        } else {
-          // No session, redirect to login
-          router.push("/auth/login")
-        }
-      } catch (error) {
-        console.error("Unexpected error:", error)
-        router.push("/auth/login?error=unexpected_error")
-      }
+    if (error) {
+      console.error("Auth callback error:", error)
+      redirect("/auth/login?error=" + encodeURIComponent(error.message))
     }
 
-    handleAuthCallback()
-  }, [router])
+    // Successfully authenticated, redirect to dashboard
+    redirect("/dashboard")
+  }
 
-  return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-muted-foreground">Completing sign in...</p>
-      </div>
-    </div>
-  )
+  if (params.error) {
+    redirect("/auth/login?error=" + encodeURIComponent(params.error))
+  }
+
+  // No code or error, redirect to login
+  redirect("/auth/login")
 }
