@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { DashboardTabs } from "@/components/dashboard-tabs";
 import { LogoutButton } from "@/components/logout-button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
@@ -67,7 +68,10 @@ export default async function DashboardPage() {
               <Home className="h-6 w-6" />
               <h1 className="text-2xl font-bold">LockedIn</h1>
             </Link>
-            <LogoutButton />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <LogoutButton />
+            </div>
           </div>
         </div>
       </header>

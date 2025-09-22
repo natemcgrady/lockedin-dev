@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
 import { Zap, Users, MessageSquare, ArrowRight } from "lucide-react";
 
@@ -24,6 +25,16 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-svh bg-background">
+      {/* Header with theme toggle */}
+      <header className="border-b bg-card">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold">LockedIn</h1>
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
+
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
