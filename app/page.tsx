@@ -1,14 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { OAuthButton } from "@/components/oauth-button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { LockIcon, Users, MessageSquare } from "lucide-react";
+import { LockIcon } from "lucide-react";
 
 interface HomePageProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -46,7 +39,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </div>
             <div className="space-y-4">
               <h1 className="text-5xl font-bold tracking-tight text-balance">
-                Are you <span className="text-primary">locked in</span>?
+                Are you Locked<span className="text-primary">In</span>?
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                 Let your friends know when you're locked in.
@@ -54,56 +47,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </div>
             <div className="flex justify-center">
               <OAuthButton size="lg" className="text-lg px-8 py-6">
-                Lock In with X
+                Lock In
               </OAuthButton>
             </div>
           </div>
-
-          {/* Features Section */}
-          {/* <div className="grid md:grid-cols-3 gap-6 mb-16">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <LockIcon className="h-5 w-5 text-primary" />
-                  <CardTitle>Status Sharing</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Let your friends know when you're locked in and focused on
-                  your work.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                  <CardTitle>Share Your Focus</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Add a message about what you're working on to inspire others.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-primary" />
-                  <CardTitle>Connect with Friends</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Find and follow other users to see their locked-in status.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div> */}
         </div>
       </div>
     </div>

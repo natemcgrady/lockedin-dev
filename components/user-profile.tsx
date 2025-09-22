@@ -60,7 +60,7 @@ export function UserProfile({ profile }: UserProfileProps) {
         <div className="flex items-center gap-2">
           <div
             className={`h-3 w-3 rounded-full ${
-              profile.is_locked_in ? "bg-green-500" : "bg-gray-400"
+              profile.is_locked_in ? "bg-primary" : "bg-gray-400"
             }`}
           />
           <span className="font-medium">

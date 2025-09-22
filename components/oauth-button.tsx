@@ -48,7 +48,7 @@ export function OAuthButton({
       <Button
         onClick={handleXLogin}
         size={size}
-        className={`gap-2 ${className}`}
+        className={`gap-2 text-black ${className}`}
         disabled={isLoading}
       >
         <svg

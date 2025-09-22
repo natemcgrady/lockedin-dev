@@ -159,9 +159,9 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-2 mb-1 justify-between">
                         <div className="flex items-center gap-1 min-w-0">
-                          <h3 className="font-semibold truncate">
+                          <h3 className="font-semibold truncate text-primary-default">
                             {user.display_name}
                           </h3>
                           <span className="truncate text-sm text-muted-foreground">
@@ -169,8 +169,11 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
                           </span>
                         </div>
                         <Badge
-                          variant={user.is_locked_in ? "default" : "secondary"}
-                          className="shrink-0"
+                          className={`shrink-0 ${
+                            user.is_locked_in
+                              ? "bg-green-700 hover:bg-green-700 text-white"
+                              : "bg-gray-800 hover:bg-gray-800 text-white"
+                          }`}
                         >
                           {user.is_locked_in ? "Locked In" : "Not Locked In"}
                         </Badge>
@@ -178,7 +181,7 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
                       {user.locked_in_message && (
                         <>
                           <Separator className="my-2" />
-                          <p className="text-sm text-foreground/80 line-clamp-2 italic">
+                          <p className="text-sm text-foreground/80 line-clamp-2 italic text-primary-500">
                             "{user.locked_in_message}"
                           </p>
                         </>
@@ -190,14 +193,6 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
                           {formatLastUpdate(user.last_status_update)}
                         </p>
                       </div>
-                    </div>
-
-                    <div className="shrink-0">
-                      <div
-                        className={`h-3 w-3 rounded-full ${
-                          user.is_locked_in ? "bg-green-500" : "bg-gray-400"
-                        }`}
-                      />
                     </div>
                   </div>
                 </CardContent>

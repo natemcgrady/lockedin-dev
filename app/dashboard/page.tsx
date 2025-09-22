@@ -63,7 +63,9 @@ export default async function DashboardPage() {
               href="/"
               className="flex items-center gap-2 hover:opacity-80 transition-opacity"
             >
-              <h1 className="text-2xl font-bold">LockedIn</h1>
+              <h1 className="text-2xl font-bold">
+                Locked<span className="text-primary">In</span>
+              </h1>
             </Link>
             <div className="flex items-center gap-2">
               <UserMenu user={profile} />
