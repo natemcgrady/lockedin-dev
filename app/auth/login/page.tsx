@@ -12,7 +12,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Twitter, Zap } from "lucide-react";
+import { LockIcon } from "lucide-react";
+import { siX } from "simple-icons";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -45,13 +46,10 @@ export default function LoginPage() {
           <div className="text-center space-y-2">
             <div className="flex justify-center">
               <div className="p-3 rounded-full bg-primary/10">
-                <Zap className="h-8 w-8 text-primary" />
+                <LockIcon className="h-8 w-8 text-primary" />
               </div>
             </div>
             <h1 className="text-3xl font-bold">LockedIn</h1>
-            <p className="text-muted-foreground">
-              Share your focus status with friends
-            </p>
           </div>
 
           <Card>
@@ -77,7 +75,14 @@ export default function LoginPage() {
                   disabled={isLoading}
                   size="lg"
                 >
-                  <Twitter className="h-4 w-4" />
+                  <svg
+                    className="h-4 w-4"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d={siX.path} />
+                  </svg>
                   {isLoading ? "Connecting..." : "Continue with X"}
                 </Button>
               </div>
