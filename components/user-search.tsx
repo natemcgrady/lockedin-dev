@@ -142,8 +142,8 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
             filteredUsers.map((user) => (
               <Card key={user.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-4">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="h-12 w-12">
+                  <div className="flex items-start gap-4">
+                    <Avatar className="h-12 w-12 shrink-0">
                       <AvatarImage
                         src={user.avatar_url || "/placeholder.svg"}
                         alt={user.display_name}
@@ -152,40 +152,40 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
                         {user.display_name.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1 justify-between">
-                        <div className="flex items-center gap-1 min-w-0">
-                          <h3 className="font-semibold truncate text-primary-default">
+
+                    <div className="flex-1 min-w-0 space-y-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="min-w-0">
+                          <h3 className="font-semibold text-primary-default truncate">
                             {user.display_name}
                           </h3>
-                          <span className="truncate text-sm text-muted-foreground">
+                          <p className="text-sm text-muted-foreground truncate">
                             @{user.username}
-                          </span>
+                          </p>
                         </div>
                         <Badge
-                          className={`shrink-0 ${
-                            user.is_locked_in
-                              ? "bg-green-700 hover:bg-green-700 text-white"
-                              : "bg-gray-800 hover:bg-gray-800 text-white"
-                          }`}
+                          variant={user.is_locked_in ? "default" : "secondary"}
+                          className="shrink-0"
                         >
                           {user.is_locked_in ? "Locked In" : "Not Locked In"}
                         </Badge>
                       </div>
+
                       {user.locked_in_message && (
-                        <>
-                          <Separator className="my-2" />
+                        <div className="space-y-2">
+                          <Separator />
                           <p className="text-sm text-foreground/80 line-clamp-2 italic text-primary-500">
                             "{user.locked_in_message}"
                           </p>
-                        </>
+                        </div>
                       )}
-                      <div className="flex items-center gap-1 mt-2">
-                        <Clock className="h-3 w-3 text-muted-foreground" />
-                        <p className="text-xs text-muted-foreground">
+
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <Clock className="h-3 w-3" />
+                        <span>
                           Last updated{" "}
                           {formatLastUpdate(user.last_status_update)}
-                        </p>
+                        </span>
                       </div>
                     </div>
                   </div>
