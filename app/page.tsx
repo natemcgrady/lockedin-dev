@@ -1,7 +1,16 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { Zap, Users, MessageSquare, ArrowRight } from "lucide-react";
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -14,20 +23,97 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6">
-      <div className="w-full max-w-2xl text-center space-y-8">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight text-balance">
-            Are you locked in?
-          </h1>
-        </div>
+    <div className="min-h-svh bg-background">
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto">
+          {/* Hero Section */}
+          <div className="text-center space-y-8 mb-16">
+            <div className="flex justify-center">
+              <div className="p-4 rounded-full bg-primary/10">
+                <Zap className="h-12 w-12 text-primary" />
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h1 className="text-5xl font-bold tracking-tight text-balance">
+                Are you <span className="text-primary">locked in</span>?
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Share your focus status with friends and stay accountable to
+                your goals. Let others know when you're in the zone and what
+                you're working on.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <Link href="/auth/login">
+                <Button size="lg" className="text-lg px-8 py-6 gap-2">
+                  Get Started
+                  <ArrowRight className="h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
 
-        <div className="space-y-4">
-          <Link href="/auth/login">
-            <Button size="lg" className="text-lg px-8 py-6">
-              Yeah
-            </Button>
-          </Link>
+          {/* Features Section */}
+          <div className="grid md:grid-cols-3 gap-6 mb-16">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-primary" />
+                  <CardTitle>Status Sharing</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Let your friends know when you're locked in and focused on
+                  your work.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <MessageSquare className="h-5 w-5 text-primary" />
+                  <CardTitle>Share Your Focus</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Add a message about what you're working on to inspire others.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  <CardTitle>Connect with Friends</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Find and follow other users to see their locked-in status.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Separator className="mb-16" />
+
+          {/* CTA Section */}
+          <div className="text-center space-y-6">
+            <h2 className="text-3xl font-bold">Ready to get locked in?</h2>
+            <p className="text-muted-foreground">
+              Join the community of focused individuals sharing their journey.
+            </p>
+            <Link href="/auth/login">
+              <Button size="lg" className="gap-2">
+                Start Your Journey
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

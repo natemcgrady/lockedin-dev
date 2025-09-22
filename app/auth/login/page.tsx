@@ -9,8 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Twitter, Zap } from "lucide-react";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,23 +42,42 @@ export default function LoginPage() {
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
         <div className="flex flex-col gap-6">
+          <div className="text-center space-y-2">
+            <div className="flex justify-center">
+              <div className="p-3 rounded-full bg-primary/10">
+                <Zap className="h-8 w-8 text-primary" />
+              </div>
+            </div>
+            <h1 className="text-3xl font-bold">LockedIn</h1>
+            <p className="text-muted-foreground">
+              Share your focus status with friends
+            </p>
+          </div>
+
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">Welcome to LockedIn</CardTitle>
+              <CardDescription>
+                Sign in to start sharing your locked-in status
+              </CardDescription>
             </CardHeader>
-            <CardContent>
+            <Separator />
+            <CardContent className="pt-6">
               <div className="flex flex-col gap-4">
                 {error && (
-                  <p className="text-sm text-destructive text-center">
-                    {error}
-                  </p>
+                  <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20">
+                    <p className="text-sm text-destructive text-center">
+                      {error}
+                    </p>
+                  </div>
                 )}
                 <Button
                   onClick={handleXLogin}
-                  className="w-full"
+                  className="w-full gap-2"
                   disabled={isLoading}
                   size="lg"
                 >
+                  <Twitter className="h-4 w-4" />
                   {isLoading ? "Connecting..." : "Continue with X"}
                 </Button>
               </div>

@@ -3,6 +3,9 @@ import { redirect } from "next/navigation";
 import { DashboardTabs } from "@/components/dashboard-tabs";
 import { LogoutButton } from "@/components/logout-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { Home, LogOut } from "lucide-react";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -54,25 +57,34 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-svh bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">LockedIn</h1>
-          <LogoutButton />
+      <header className="border-b bg-card">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link
+              href="/"
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <Home className="h-6 w-6" />
+              <h1 className="text-2xl font-bold">LockedIn</h1>
+            </Link>
+            <LogoutButton />
+          </div>
         </div>
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-2xl mx-auto space-y-6">
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">
-                Hello, {profile.display_name}!
+                Welcome back, {profile.display_name}!
               </CardTitle>
               <p className="text-muted-foreground">
-                Are you currently locked in?
+                Manage your locked-in status and connect with others
               </p>
             </CardHeader>
-            <CardContent>
+            <Separator />
+            <CardContent className="pt-6">
               <DashboardTabs profile={profile} />
             </CardContent>
           </Card>

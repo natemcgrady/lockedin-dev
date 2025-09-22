@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
+import { Zap, ZapOff, MessageSquare } from "lucide-react";
 
 interface StatusToggleProps {
   profile: {
@@ -66,37 +70,76 @@ export function StatusToggle({ profile }: StatusToggleProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-center space-x-3">
-        <Switch
-          id="locked-in"
-          checked={isLockedIn}
-          onCheckedChange={setIsLockedIn}
-          className="scale-125"
-        />
-        <Label htmlFor="locked-in" className="text-lg font-medium">
-          {isLockedIn ? "I'm locked in" : "I'm not locked in"}
-        </Label>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            {isLockedIn ? (
+              <Zap className="h-5 w-5 text-green-500" />
+            ) : (
+              <ZapOff className="h-5 w-5 text-gray-400" />
+            )}
+            Status Control
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-center space-x-3">
+            <Switch
+              id="locked-in"
+              checked={isLockedIn}
+              onCheckedChange={setIsLockedIn}
+              className="scale-125"
+            />
+            <Label htmlFor="locked-in" className="text-lg font-medium">
+              {isLockedIn ? "I'm locked in" : "I'm not locked in"}
+            </Label>
+          </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="message" className="text-sm font-medium">
-          What are you working on? (optional)
-        </Label>
-        <Textarea
-          id="message"
-          placeholder="Share what you're focused on..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          maxLength={280}
-          rows={3}
-          className="resize-none"
-        />
-        <p className="text-xs text-muted-foreground text-right">
-          {message.length}/280 characters
-        </p>
-      </div>
+          <div className="flex justify-center">
+            <Badge
+              variant={isLockedIn ? "default" : "secondary"}
+              className="text-sm"
+            >
+              {isLockedIn ? "Currently Locked In" : "Currently Not Locked In"}
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
 
-      {error && <p className="text-sm text-destructive text-center">{error}</p>}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <MessageSquare className="h-5 w-5" />
+            Status Message
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="message" className="text-sm font-medium">
+              What are you working on? (optional)
+            </Label>
+            <Textarea
+              id="message"
+              placeholder="Share what you're focused on..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              maxLength={280}
+              rows={3}
+              className="resize-none"
+            />
+            <p className="text-xs text-muted-foreground text-right">
+              {message.length}/280 characters
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {error && (
+        <Card className="border-destructive">
+          <CardContent className="pt-6">
+            <p className="text-sm text-destructive text-center">{error}</p>
+          </CardContent>
+        </Card>
+      )}
 
       <Button
         onClick={handleStatusUpdate}

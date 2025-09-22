@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Search, Users } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Search, Users, Clock } from "lucide-react";
 
 interface User {
   id: string;
@@ -96,6 +97,15 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
   if (isLoading) {
     return (
       <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            Find Users
+          </CardTitle>
+          <CardDescription>
+            Search for other users and see their current locked-in status
+          </CardDescription>
+        </CardHeader>
         <CardContent className="flex items-center justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </CardContent>
@@ -136,53 +146,61 @@ export function UserSearch({ currentUserId }: UserSearchProps) {
             </div>
           ) : (
             filteredUsers.map((user) => (
-              <div
-                key={user.id}
-                className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
-              >
-                <Avatar className="h-12 w-12">
-                  <AvatarImage
-                    src={user.avatar_url || "/placeholder.svg"}
-                    alt={user.display_name}
-                  />
-                  <AvatarFallback>
-                    {user.display_name.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+              <Card key={user.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-4">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage
+                        src={user.avatar_url || "/placeholder.svg"}
+                        alt={user.display_name}
+                      />
+                      <AvatarFallback>
+                        {user.display_name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold truncate">
-                      {user.display_name}
-                    </h3>
-                    <Badge
-                      variant={user.is_locked_in ? "default" : "secondary"}
-                      className="shrink-0"
-                    >
-                      {user.is_locked_in ? "Locked In" : "Not Locked In"}
-                    </Badge>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-semibold truncate">
+                          {user.display_name}
+                        </h3>
+                        <Badge
+                          variant={user.is_locked_in ? "default" : "secondary"}
+                          className="shrink-0"
+                        >
+                          {user.is_locked_in ? "Locked In" : "Not Locked In"}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground truncate">
+                        @{user.username}
+                      </p>
+                      {user.locked_in_message && (
+                        <>
+                          <Separator className="my-2" />
+                          <p className="text-sm text-foreground/80 line-clamp-2 italic">
+                            "{user.locked_in_message}"
+                          </p>
+                        </>
+                      )}
+                      <div className="flex items-center gap-1 mt-2">
+                        <Clock className="h-3 w-3 text-muted-foreground" />
+                        <p className="text-xs text-muted-foreground">
+                          Last updated{" "}
+                          {formatLastUpdate(user.last_status_update)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="shrink-0">
+                      <div
+                        className={`h-3 w-3 rounded-full ${
+                          user.is_locked_in ? "bg-green-500" : "bg-gray-400"
+                        }`}
+                      />
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground truncate">
-                    @{user.username}
-                  </p>
-                  {user.locked_in_message && (
-                    <p className="text-sm mt-1 text-foreground/80 line-clamp-2">
-                      "{user.locked_in_message}"
-                    </p>
-                  )}
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Last updated {formatLastUpdate(user.last_status_update)}
-                  </p>
-                </div>
-
-                <div className="shrink-0">
-                  <div
-                    className={`h-3 w-3 rounded-full ${
-                      user.is_locked_in ? "bg-green-500" : "bg-gray-400"
-                    }`}
-                  />
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))
           )}
         </div>
