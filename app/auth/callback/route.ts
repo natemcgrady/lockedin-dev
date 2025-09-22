@@ -14,7 +14,17 @@ export async function GET(request: NextRequest) {
 
     console.log("📊 Route Handler - Exchange result:", { error });
 
-    // Check if we have a valid session, even if exchangeCodeForSession returned an error
+    if (error) {
+      console.log("❌ Route Handler - Code exchange failed:", error);
+      return NextResponse.redirect(
+        `${origin}/auth/login?error=Authentication failed`
+      );
+    }
+
+    // Wait a moment for session to be established
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    // Check if we have a valid session
     const {
       data: { user },
       error: userError,

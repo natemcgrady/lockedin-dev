@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LockedIn - Status Sharing",
+  title: "LockedIn",
   description: "Share your locked-in status with friends",
   generator: "v0.app",
 };

@@ -17,11 +17,6 @@ interface HomePageProps {
 }
 
 export default async function HomePage({ searchParams }: HomePageProps) {
-  // Handle OAuth callback if code is present
-  if (searchParams.code) {
-    redirect(`/auth/callback?code=${searchParams.code}`);
-  }
-
   const supabase = await createClient();
   const {
     data: { user },
