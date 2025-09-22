@@ -50,7 +50,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             <div className="flex justify-center">
               <OAuthButton
                 size="lg"
-                className="text-lg px-8 py-6 text-secondary-foreground"
+                className="text-lg px-8 py-6 text-white dark:text-black"
               >
                 Lock In with X
               </OAuthButton>
