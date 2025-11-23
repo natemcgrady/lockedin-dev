@@ -1,0 +1,265 @@
+---
+title: Deployment
+description: Guide to deploying LockedIn to production
+---
+
+# Deployment
+
+This guide covers deploying LockedIn to production environments.
+
+## Prerequisites
+
+Before deploying, ensure you have:
+
+- Production Supabase project
+- OAuth apps configured for production
+- Environment variables set
+- Database migrations run
+
+## Vercel Deployment (Recommended)
+
+Vercel is the recommended platform for Next.js applications.
+
+### Step 1: Prepare Your Repository
+
+1. Push your code to GitHub/GitLab/Bitbucket
+2. Ensure all environment variables are documented
+3. Verify your build works locally: `npm run build`
+
+### Step 2: Create Vercel Project
+
+1. Go to [vercel.com](https://vercel.com)
+2. Import your repository
+3. Configure project settings
+
+### Step 3: Environment Variables
+
+Add these environment variables in Vercel:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_production_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_production_supabase_anon_key
+```
+
+### Step 4: Build Settings
+
+Vercel will auto-detect Next.js:
+- **Framework Preset**: Next.js
+- **Build Command**: `npm run build` (auto-detected)
+- **Output Directory**: `.next` (auto-detected)
+- **Install Command**: `npm install` (auto-detected)
+
+### Step 5: Deploy
+
+1. Click "Deploy"
+2. Wait for build to complete
+3. Your app will be live at `your-project.vercel.app`
+
+### Step 6: Custom Domain (Optional)
+
+1. Go to Project Settings → Domains
+2. Add your custom domain
+3. Configure DNS records as instructed
+
+## Supabase Configuration
+
+### Production Database
+
+1. Create a new Supabase project for production
+2. Run all migration scripts in order:
+   - `001_create_users_table.sql`
+   - `002_create_user_trigger.sql`
+   - `003_create_status_history.sql`
+
+### OAuth Redirect URLs
+
+Update OAuth provider redirect URLs:
+
+**Twitter/X**:
+- Production: `https://yourdomain.com/auth/callback`
+- Remove development URLs
+
+**GitHub**:
+- Production: `https://yourdomain.com/auth/callback`
+- Remove development URLs
+
+### Supabase Auth Settings
+
+1. Go to **Authentication** → **URL Configuration**
+2. Add your production site URL
+3. Add redirect URLs
+4. Configure allowed origins
+
+## Environment Variables
+
+### Required Variables
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
+### Optional Variables
+
+```bash
+NODE_ENV=production
+```
+
+## Database Migrations
+
+### Running Migrations
+
+1. Connect to your production Supabase project
+2. Open SQL Editor
+3. Run scripts in order:
+   ```sql
+   -- Run 001_create_users_table.sql
+   -- Run 002_create_user_trigger.sql
+   -- Run 003_create_status_history.sql
+   ```
+
+### Verifying Migrations
+
+Check that tables exist:
+```sql
+SELECT table_name 
+FROM information_schema.tables 
+WHERE table_schema = 'public';
+```
+
+## Build Optimization
+
+### Next.js Build
+
+The production build includes:
+- Automatic code splitting
+- Static page generation
+- Optimized images
+- Minified JavaScript/CSS
+
+### Build Command
+
+```bash
+npm run build
+```
+
+This creates an optimized production build in `.next/`.
+
+## Performance
+
+### Vercel Edge Network
+
+Vercel automatically:
+- Serves from edge locations
+- Caches static assets
+- Optimizes images
+- Provides CDN
+
+### Database Optimization
+
+Ensure indexes are created:
+- `users_username_idx`
+- `users_x_user_id_idx`
+- `users_is_locked_in_idx`
+- `status_history_user_id_idx`
+- `status_history_created_at_idx`
+
+## Monitoring
+
+### Vercel Analytics
+
+Vercel provides built-in analytics:
+- Page views
+- Performance metrics
+- Error tracking
+
+Enable in project settings.
+
+### Supabase Monitoring
+
+Monitor your database:
+- Query performance
+- Connection pool usage
+- Error logs
+
+## Security Checklist
+
+Before going live:
+
+- [ ] Environment variables set correctly
+- [ ] OAuth redirect URLs updated
+- [ ] RLS policies enabled
+- [ ] HTTPS enabled (automatic on Vercel)
+- [ ] CORS configured correctly
+- [ ] Error pages configured
+- [ ] Rate limiting considered
+
+## Troubleshooting
+
+### Build Failures
+
+1. Check build logs in Vercel
+2. Verify all dependencies are in `package.json`
+3. Ensure TypeScript errors are resolved
+4. Check environment variables
+
+### Authentication Issues
+
+1. Verify OAuth redirect URLs
+2. Check Supabase auth settings
+3. Ensure environment variables are set
+4. Check browser console for errors
+
+### Database Issues
+
+1. Verify migrations ran successfully
+2. Check RLS policies
+3. Verify user permissions
+4. Check Supabase logs
+
+## Rollback
+
+If you need to rollback:
+
+1. Go to Vercel dashboard
+2. Find previous deployment
+3. Click "Promote to Production"
+4. Or redeploy previous commit
+
+## Continuous Deployment
+
+Vercel automatically deploys:
+- On push to main branch
+- On pull request (preview deployments)
+- Manual deployments available
+
+## Other Platforms
+
+### Netlify
+
+Similar process to Vercel:
+1. Connect repository
+2. Set environment variables
+3. Configure build settings
+4. Deploy
+
+### Self-Hosting
+
+For self-hosting:
+1. Build the app: `npm run build`
+2. Start server: `npm start`
+3. Configure reverse proxy (nginx)
+4. Set up SSL certificate
+5. Configure environment variables
+
+## Post-Deployment
+
+After deployment:
+
+1. Test authentication flow
+2. Verify status updates work
+3. Check user search functionality
+4. Test on mobile devices
+5. Monitor error logs
+6. Set up alerts for critical errors
+

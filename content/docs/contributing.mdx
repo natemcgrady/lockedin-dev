@@ -1,0 +1,235 @@
+---
+title: Contributing
+description: Guidelines for contributing to LockedIn
+---
+
+# Contributing
+
+Thank you for your interest in contributing to LockedIn! This guide will help you get started.
+
+## Getting Started
+
+1. Fork the repository
+2. Clone your fork locally
+3. Follow the [Getting Started Guide](/docs/getting-started)
+4. Create a new branch for your changes
+
+## Development Workflow
+
+### Branch Naming
+
+Use descriptive branch names:
+- `feature/add-new-feature`
+- `fix/bug-description`
+- `docs/update-documentation`
+
+### Making Changes
+
+1. Make your changes
+2. Test thoroughly
+3. Ensure TypeScript compiles: `npm run build`
+4. Check for linting errors: `npm run lint`
+
+### Commit Messages
+
+Use clear, descriptive commit messages:
+```
+feat: Add user profile editing
+fix: Resolve status update race condition
+docs: Update API documentation
+```
+
+## Code Style
+
+### TypeScript
+
+- Use TypeScript for all new code
+- Avoid `any` types
+- Use proper interfaces/types
+- Follow existing patterns
+
+### React
+
+- Use functional components
+- Prefer Server Components when possible
+- Use `"use client"` only when needed
+- Follow React best practices
+
+### Styling
+
+- Use Tailwind CSS utility classes
+- Follow existing component patterns
+- Maintain responsive design
+- Support dark mode
+
+## Component Guidelines
+
+### Creating New Components
+
+1. Place in appropriate directory:
+   - Feature components: `components/`
+   - UI components: `components/ui/`
+2. Use TypeScript interfaces for props
+3. Add proper error handling
+4. Include loading states
+5. Make accessible
+
+### Component Structure
+
+```tsx
+"use client"; // Only if needed
+
+import { ... } from "...";
+
+interface ComponentProps {
+  // Props definition
+}
+
+export function Component({ prop }: ComponentProps) {
+  // Component logic
+  return (
+    // JSX
+  );
+}
+```
+
+## Testing
+
+### Manual Testing
+
+Before submitting:
+- Test on desktop browsers
+- Test on mobile devices
+- Test authentication flow
+- Test all user interactions
+- Verify error handling
+
+### Type Checking
+
+```bash
+npm run build
+```
+
+This will catch TypeScript errors.
+
+## Documentation
+
+### Code Comments
+
+Add comments for:
+- Complex logic
+- Non-obvious decisions
+- API integrations
+- Database operations
+
+### Documentation Updates
+
+When adding features:
+- Update relevant docs in `content/docs/`
+- Add examples if applicable
+- Update API reference if needed
+
+## Pull Requests
+
+### Before Submitting
+
+- [ ] Code follows style guidelines
+- [ ] TypeScript compiles without errors
+- [ ] All tests pass
+- [ ] Documentation updated
+- [ ] Commit messages are clear
+
+### PR Description
+
+Include:
+- What changes were made
+- Why the changes were needed
+- How to test the changes
+- Screenshots (if UI changes)
+
+## Database Changes
+
+### Migrations
+
+If changing the database:
+1. Create new migration script
+2. Number sequentially (e.g., `004_new_feature.sql`)
+3. Include rollback instructions
+4. Test on development database first
+5. Document in PR description
+
+### Schema Changes
+
+- Update `docs/database.mdx`
+- Document new columns/tables
+- Update RLS policies if needed
+- Add indexes for performance
+
+## Feature Requests
+
+### Suggesting Features
+
+1. Open an issue describing the feature
+2. Explain the use case
+3. Discuss implementation approach
+4. Wait for feedback before implementing
+
+### Implementing Features
+
+1. Get approval on the issue
+2. Create feature branch
+3. Implement with tests
+4. Update documentation
+5. Submit PR
+
+## Bug Reports
+
+### Reporting Bugs
+
+Include:
+- Description of the bug
+- Steps to reproduce
+- Expected behavior
+- Actual behavior
+- Browser/device information
+- Screenshots if applicable
+
+### Fixing Bugs
+
+1. Reproduce the bug locally
+2. Identify the root cause
+3. Write a fix
+4. Test the fix
+5. Submit PR with description
+
+## Code Review
+
+### Review Process
+
+- All PRs require review
+- Address feedback promptly
+- Be open to suggestions
+- Keep discussions constructive
+
+### Review Checklist
+
+- Code quality
+- Performance implications
+- Security considerations
+- Accessibility
+- Documentation
+
+## Questions?
+
+If you have questions:
+- Open a discussion
+- Ask in PR comments
+- Check existing documentation
+- Review similar code in the codebase
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the same license as the project.
+
+Thank you for contributing to LockedIn! 🎉
+

@@ -1,0 +1,377 @@
+---
+title: Components
+description: Component reference and usage guide
+---
+
+# Components
+
+LockedIn uses a component-based architecture with reusable UI components.
+
+## Feature Components
+
+### StatusToggle
+
+Manages the user's locked-in status and message.
+
+**Location**: `components/status-toggle.tsx`
+
+**Props**:
+```typescript
+interface StatusToggleProps {
+  profile: {
+    id: string;
+    is_locked_in: boolean;
+    locked_in_message?: string;
+  };
+}
+```
+
+**Features**:
+- Toggle switch for locked-in status
+- Textarea for status message (280 char limit)
+- Character counter
+- Update button
+- Error handling
+
+**Usage**:
+```tsx
+<StatusToggle profile={userProfile} />
+```
+
+### UserSearch
+
+Search and display other users in the system.
+
+**Location**: `components/user-search.tsx`
+
+**Props**:
+```typescript
+interface UserSearchProps {
+  currentUserId: string;
+}
+```
+
+**Features**:
+- Real-time search by username or display name
+- User cards with avatars
+- Status badges
+- Last update timestamps
+- Loading states
+
+**Usage**:
+```tsx
+<UserSearch currentUserId={user.id} />
+```
+
+### UserProfile
+
+Displays user profile information.
+
+**Location**: `components/user-profile.tsx`
+
+**Props**:
+```typescript
+interface UserProfileProps {
+  profile: {
+    username: string;
+    display_name: string;
+    avatar_url?: string;
+    is_locked_in: boolean;
+    locked_in_message?: string;
+    last_status_update?: string;
+  };
+}
+```
+
+**Features**:
+- Avatar display
+- Status badge
+- Status message
+- Last update time
+- Responsive layout
+
+**Usage**:
+```tsx
+<UserProfile profile={userProfile} />
+```
+
+### DashboardTabs
+
+Tabbed interface container for dashboard features.
+
+**Location**: `components/dashboard-tabs.tsx`
+
+**Props**:
+```typescript
+interface DashboardTabsProps {
+  profile: {
+    id: string;
+    username: string;
+    display_name: string;
+    avatar_url?: string;
+    is_locked_in: boolean;
+    locked_in_message?: string;
+    last_status_update?: string;
+  };
+}
+```
+
+**Tabs**:
+1. **My Status** - StatusToggle component
+2. **Find Users** - UserSearch component
+
+**Usage**:
+```tsx
+<DashboardTabs profile={userProfile} />
+```
+
+### UserMenu
+
+Dropdown menu for user actions.
+
+**Location**: `components/user-menu.tsx`
+
+**Props**:
+```typescript
+interface UserMenuProps {
+  user: {
+    id: string;
+    display_name?: string;
+    username?: string;
+    avatar_url?: string;
+  };
+}
+```
+
+**Features**:
+- Avatar trigger
+- Theme selector
+- Delete account option
+- Sign out option
+- Confirmation dialogs
+
+**Usage**:
+```tsx
+<UserMenu user={currentUser} />
+```
+
+### OAuthButton
+
+OAuth provider login button.
+
+**Location**: `components/oauth-button.tsx`
+
+**Props**:
+```typescript
+interface OAuthButtonProps {
+  size?: "default" | "sm" | "lg" | "icon";
+  provider?: "twitter" | "github";
+  className?: string;
+  children?: React.ReactNode;
+}
+```
+
+**Features**:
+- Provider icons (Twitter/X, GitHub)
+- Loading states
+- Error handling
+- Customizable styling
+
+**Usage**:
+```tsx
+<OAuthButton provider="twitter" size="lg" />
+<OAuthButton provider="github" size="lg" />
+```
+
+## UI Components
+
+All UI components are from shadcn/ui and located in `components/ui/`:
+
+### Button
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+<Button variant="default" size="lg">Click me</Button>
+```
+
+### Card
+
+```tsx
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+
+<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+  </CardHeader>
+  <CardContent>Content</CardContent>
+</Card>
+```
+
+### Input
+
+```tsx
+import { Input } from "@/components/ui/input";
+
+<Input placeholder="Search..." />
+```
+
+### Textarea
+
+```tsx
+import { Textarea } from "@/components/ui/textarea";
+
+<Textarea placeholder="Enter message..." maxLength={280} />
+```
+
+### Switch
+
+```tsx
+import { Switch } from "@/components/ui/switch";
+
+<Switch checked={isLockedIn} onCheckedChange={setIsLockedIn} />
+```
+
+### Badge
+
+```tsx
+import { Badge } from "@/components/ui/badge";
+
+<Badge variant="default">Locked In</Badge>
+```
+
+### Avatar
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
+<Avatar>
+  <AvatarImage src={avatarUrl} />
+  <AvatarFallback>JD</AvatarFallback>
+</Avatar>
+```
+
+### Tabs
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+
+<Tabs defaultValue="status">
+  <TabsList>
+    <TabsTrigger value="status">Status</TabsTrigger>
+  </TabsList>
+  <TabsContent value="status">Content</TabsContent>
+</Tabs>
+```
+
+### Dropdown Menu
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+
+<DropdownMenu>
+  <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Item</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+### Alert Dialog
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
+
+<AlertDialog>
+  <AlertDialogTrigger>Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Title</AlertDialogTitle>
+      <AlertDialogDescription>Description</AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Confirm</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Theme Components
+
+### ThemeProvider
+
+Provides theme context to the app.
+
+**Location**: `components/theme-provider.tsx`
+
+**Usage**: Wraps the app in `app/layout.tsx`
+
+### ThemeSelector
+
+Dropdown for selecting theme (light/dark/system).
+
+**Location**: `components/theme-selector.tsx`
+
+**Usage**: Included in UserMenu
+
+### ThemeToggle
+
+Simple toggle button for theme switching.
+
+**Location**: `components/theme-toggle.tsx`
+
+## Component Patterns
+
+### Server Components
+
+Most page components are server components:
+- Fetch data on the server
+- Reduced client bundle size
+- Better SEO
+
+### Client Components
+
+Interactive components use `"use client"`:
+- State management
+- Event handlers
+- Real-time updates
+
+### Composition
+
+Components are composed together:
+- DashboardTabs contains StatusToggle and UserSearch
+- UserMenu contains ThemeSelector
+- Pages compose multiple components
+
+## Styling
+
+All components use Tailwind CSS:
+- Utility classes for styling
+- CSS variables for theming
+- Responsive design utilities
+- Dark mode support
+
+## Accessibility
+
+All components follow accessibility best practices:
+- Keyboard navigation
+- ARIA labels
+- Focus management
+- Screen reader support
+

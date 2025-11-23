@@ -1,0 +1,171 @@
+---
+title: Architecture
+description: Understanding the structure and design of LockedIn
+---
+
+# Architecture
+
+This document explains the architecture and design decisions behind LockedIn.
+
+## Tech Stack
+
+LockedIn is built with modern web technologies:
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui (Radix UI primitives)
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth (OAuth)
+- **Documentation**: Fumadocs (MDX)
+
+## Application Structure
+
+### App Router (Next.js)
+
+The app uses Next.js 16's App Router with the following structure:
+
+```
+app/
+├── layout.tsx              # Root layout with providers
+├── page.tsx                # Home page (landing)
+├── globals.css             # Global styles
+├── api/                    # API routes
+│   └── search.route.ts     # Search API endpoint
+├── auth/                   # Authentication
+│   ├── login/              # Login page
+│   └── callback/           # OAuth callback handler
+├── dashboard/              # Main app interface
+│   └── page.tsx            # Dashboard page
+└── docs/                   # Documentation
+    ├── layout.tsx          # Docs layout
+    └── [[...slug]]/        # Dynamic docs pages
+```
+
+### Server vs Client Components
+
+LockedIn uses React Server Components by default:
+
+- **Server Components** (default):
+  - `app/dashboard/page.tsx` - Fetches user data on server
+  - `app/page.tsx` - Landing page
+  - All layout files
+
+- **Client Components** (`"use client"`):
+  - `components/status-toggle.tsx` - Interactive status updates
+  - `components/user-search.tsx` - Real-time search
+  - `components/oauth-button.tsx` - OAuth interactions
+  - `components/user-menu.tsx` - Dropdown interactions
+
+## Data Flow
+
+### Authentication Flow
+
+1. User clicks OAuth button → Client component calls Supabase
+2. Supabase redirects to OAuth provider
+3. Provider redirects back to `/auth/callback`
+4. Server route exchanges code for session
+5. User redirected to dashboard
+
+### Status Update Flow
+
+1. User toggles status → Client component updates local state
+2. User clicks "Update Status" → Client calls Supabase client
+3. Supabase updates `users` table
+4. Status history inserted into `status_history` table
+5. Page refreshes to show updated status
+
+### User Search Flow
+
+1. Component mounts → Fetches all users from Supabase
+2. User types in search → Client-side filtering
+3. Results update in real-time (no API call needed)
+
+## Supabase Integration
+
+### Client Setup
+
+Two Supabase clients are used:
+
+1. **Server Client** (`lib/supabase/server.ts`):
+   - Uses Next.js `cookies()` API
+   - For server components and API routes
+   - Handles SSR cookie management
+
+2. **Client** (`lib/supabase/client.ts`):
+   - Browser-based client
+   - For client components
+   - Handles client-side operations
+
+### Row Level Security (RLS)
+
+All tables use Supabase RLS policies:
+
+- **Users table**: Anyone can read, users can only update their own profile
+- **Status history**: Users can only view/insert their own history
+
+## Component Architecture
+
+### Feature Components
+
+- `StatusToggle` - Manages user's locked-in status
+- `UserSearch` - Search and display other users
+- `UserProfile` - Display user profile information
+- `DashboardTabs` - Tab container for dashboard features
+- `UserMenu` - User dropdown with settings
+- `OAuthButton` - OAuth provider buttons
+
+### UI Components
+
+All UI components are from shadcn/ui, located in `components/ui/`:
+- Built on Radix UI primitives
+- Styled with Tailwind CSS
+- Fully accessible
+
+## Styling
+
+### Tailwind CSS
+
+- Uses Tailwind CSS 4.x
+- Custom theme variables in `app/globals.css`
+- Dark mode support via `next-themes`
+
+### Theme System
+
+- Light/dark mode toggle
+- System preference detection
+- Theme persisted in localStorage
+- Uses CSS variables for theming
+
+## Documentation
+
+Documentation is built with Fumadocs:
+
+- MDX files in `content/docs/`
+- Auto-generated navigation
+- Search functionality
+- Code syntax highlighting
+
+## Environment Variables
+
+Required environment variables:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+## Performance Optimizations
+
+- Server Components for reduced client bundle
+- Automatic code splitting by Next.js
+- Image optimization (when enabled)
+- Static generation for docs pages
+
+## Security Considerations
+
+- All database operations use RLS
+- OAuth handled by Supabase (no tokens stored)
+- Server-side session validation
+- CSRF protection via Next.js
+

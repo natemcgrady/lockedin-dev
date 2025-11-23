@@ -1,0 +1,214 @@
+---
+title: Features
+description: Complete feature overview of LockedIn
+---
+
+# Features
+
+LockedIn provides a comprehensive set of features for sharing and tracking your locked-in status.
+
+## Authentication
+
+### OAuth Providers
+
+LockedIn supports multiple OAuth providers:
+
+- **Twitter/X** - Sign in with your X account
+- **GitHub** - Sign in with your GitHub account
+
+### Authentication Flow
+
+1. Click on an OAuth provider button
+2. Redirected to provider's login page
+3. Authorize the application
+4. Automatically redirected back to LockedIn
+5. User profile is created automatically
+
+### User Profile Creation
+
+When a user signs in for the first time:
+- Profile is automatically created in the `users` table
+- Username extracted from OAuth metadata
+- Display name and avatar URL imported
+- User can immediately start using the app
+
+## Status Management
+
+### Locked In Status
+
+Users can toggle between two states:
+- **Locked In** - Currently focused and working
+- **Not Locked In** - Available or not working
+
+### Status Messages
+
+When locked in, users can optionally add a message:
+- Up to 280 characters
+- Share what you're working on
+- Visible to all users
+- Can be updated anytime
+
+### Status Updates
+
+- Real-time status updates
+- Automatic timestamp tracking
+- Status history preserved
+- Last update time displayed
+
+## User Search
+
+### Search Functionality
+
+- Search by username or display name
+- Real-time filtering as you type
+- Case-insensitive search
+- Instant results
+
+### User Cards
+
+Each user card displays:
+- Avatar (or fallback initial)
+- Display name and username
+- Current locked-in status badge
+- Status message (if available)
+- Last update timestamp
+
+### User List
+
+- All users displayed by default
+- Sorted by last status update
+- Shows all users in the system
+- Excludes current user from results
+
+## Dashboard
+
+### Tabbed Interface
+
+The dashboard uses a tabbed interface:
+
+1. **My Status Tab**
+   - Status toggle switch
+   - Message input field
+   - Update button
+   - Character counter
+
+2. **Find Users Tab**
+   - Search input
+   - User list with cards
+   - Status information
+   - Real-time updates
+
+## User Profile
+
+### Profile Display
+
+Your profile shows:
+- Avatar image
+- Display name and username
+- Current status badge
+- Status message
+- Last update time
+
+### Profile Management
+
+- Automatic profile creation on signup
+- Profile updates via status changes
+- Avatar synced from OAuth provider
+
+## User Menu
+
+### Menu Options
+
+Accessible from the header:
+- **Theme Selector** - Switch between light/dark mode
+- **Delete Account** - Permanently delete your account
+- **Sign Out** - Log out of the application
+
+### Account Deletion
+
+- Confirmation dialog before deletion
+- Removes user profile and status history
+- Cascades to related data
+- Cannot be undone
+
+## Status History
+
+### History Tracking
+
+Every status change is recorded:
+- Timestamp of change
+- Status value (locked in/not locked in)
+- Associated message
+- Stored in `status_history` table
+
+### Privacy
+
+- Users can only view their own history
+- History is private by default
+- Used for analytics and tracking
+
+## Theme Support
+
+### Light/Dark Mode
+
+- Toggle between light and dark themes
+- System preference detection
+- Theme persisted across sessions
+- Smooth transitions
+
+### Theme Selector
+
+- Accessible from user menu
+- Three options: Light, Dark, System
+- Instant theme switching
+- Respects user preference
+
+## Responsive Design
+
+### Mobile Support
+
+- Fully responsive layout
+- Touch-friendly interactions
+- Optimized for small screens
+- Works on all devices
+
+### Desktop Experience
+
+- Comfortable spacing
+- Hover states
+- Keyboard navigation
+- Large screen optimization
+
+## Real-time Updates
+
+### Status Changes
+
+- Updates reflected immediately
+- No page refresh needed
+- Optimistic UI updates
+- Error handling
+
+### User List
+
+- Fetches latest data on mount
+- Shows current status
+- Updates when status changes
+- Sorted by activity
+
+## Accessibility
+
+### WCAG Compliance
+
+- Keyboard navigation support
+- Screen reader friendly
+- Proper ARIA labels
+- Focus management
+
+### UI Components
+
+All components built with accessibility in mind:
+- Radix UI primitives
+- Proper semantic HTML
+- Focus indicators
+- Color contrast compliance
+

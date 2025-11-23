@@ -1,9 +1,10 @@
-import type React from "react";
+import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
+import { RootProvider } from "fumadocs-ui/provider/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,27 +26,31 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Suspense
-            fallback={
-              <div className="flex min-h-svh w-full items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              </div>
-            }
+      <body
+        className={`font-sans ${inter.variable} ${jetbrainsMono.variable} flex flex-col min-h-screen`}
+      >
+        <RootProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
           >
-            {children}
-          </Suspense>
-        </ThemeProvider>
+            <Suspense
+              fallback={
+                <div className="flex min-h-svh w-full items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+              }
+            >
+              {children}
+            </Suspense>
+          </ThemeProvider>
+        </RootProvider>
         <Analytics />
       </body>
     </html>

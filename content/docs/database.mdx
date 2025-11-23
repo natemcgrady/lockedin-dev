@@ -1,0 +1,203 @@
+---
+title: Database Schema
+description: Complete database schema and relationships
+---
+
+# Database Schema
+
+LockedIn uses Supabase (PostgreSQL) for data storage. This document describes the complete database schema.
+
+## Tables
+
+### `users` Table
+
+Stores user profiles and current status.
+
+```sql
+create table public.users (
+  id uuid primary key references auth.users(id) on delete cascade,
+  username text unique not null,
+  display_name text not null,
+  avatar_url text,
+  x_user_id text unique not null,
+  is_locked_in boolean default false,
+  locked_in_message text,
+  last_status_update timestamp with time zone default now(),
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
+);
+```
+
+#### Columns
+
+- `id` (uuid, PK) - References `auth.users.id`, cascades on delete
+- `username` (text, unique) - Unique username for the user
+- `display_name` (text) - User's display name
+- `avatar_url` (text, nullable) - URL to user's avatar image
+- `x_user_id` (text, unique) - OAuth provider user ID
+- `is_locked_in` (boolean) - Current locked-in status (default: false)
+- `locked_in_message` (text, nullable) - Optional status message (max 280 chars)
+- `last_status_update` (timestamp) - When status was last updated
+- `created_at` (timestamp) - Account creation time
+- `updated_at` (timestamp) - Last profile update time
+
+#### Indexes
+
+```sql
+create index users_username_idx on public.users(username);
+create index users_x_user_id_idx on public.users(x_user_id);
+create index users_is_locked_in_idx on public.users(is_locked_in);
+```
+
+#### Row Level Security (RLS)
+
+- **Select Policy**: Anyone can view all user profiles
+- **Update Policy**: Users can only update their own profile
+- **Insert Policy**: Users can only insert their own profile
+
+### `status_history` Table
+
+Tracks all status changes over time.
+
+```sql
+create table public.status_history (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.users(id) on delete cascade,
+  is_locked_in boolean not null,
+  message text,
+  created_at timestamp with time zone default now()
+);
+```
+
+#### Columns
+
+- `id` (uuid, PK) - Unique identifier for each history entry
+- `user_id` (uuid, FK) - References `users.id`, cascades on delete
+- `is_locked_in` (boolean) - Status value at time of change
+- `message` (text, nullable) - Message associated with this status
+- `created_at` (timestamp) - When this status change occurred
+
+#### Indexes
+
+```sql
+create index status_history_user_id_idx on public.status_history(user_id);
+create index status_history_created_at_idx on public.status_history(created_at desc);
+```
+
+#### Row Level Security (RLS)
+
+- **Select Policy**: Users can only view their own status history
+- **Insert Policy**: Users can only insert their own status history
+
+## Database Functions
+
+### `handle_new_user()`
+
+Automatically creates a user profile when a new user signs up via OAuth.
+
+```sql
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.users (
+    id, 
+    username, 
+    display_name, 
+    avatar_url, 
+    x_user_id
+  )
+  values (
+    new.id,
+    coalesce(new.raw_user_meta_data ->> 'user_name', 'user_' || substr(new.id::text, 1, 8)),
+    coalesce(new.raw_user_meta_data ->> 'full_name', new.raw_user_meta_data ->> 'name', 'Anonymous User'),
+    coalesce(new.raw_user_meta_data ->> 'avatar_url', new.raw_user_meta_data ->> 'picture'),
+    coalesce(new.raw_user_meta_data ->> 'provider_id', new.raw_user_meta_data ->> 'sub', new.id::text)
+  )
+  on conflict (id) do nothing;
+
+  return new;
+end;
+$$;
+```
+
+### Trigger: `on_auth_user_created`
+
+Automatically executes `handle_new_user()` when a new user is created in `auth.users`.
+
+```sql
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row
+  execute function public.handle_new_user();
+```
+
+## Relationships
+
+### User → Status History
+
+- One-to-many relationship
+- One user can have many status history entries
+- Foreign key with cascade delete
+
+### User → Auth User
+
+- One-to-one relationship
+- Each user profile links to exactly one auth user
+- Foreign key with cascade delete
+
+## Data Flow
+
+### User Creation
+
+1. User signs in via OAuth
+2. Supabase creates entry in `auth.users`
+3. Trigger fires `handle_new_user()`
+4. Profile created in `public.users`
+5. User can immediately use the app
+
+### Status Update
+
+1. User updates status via UI
+2. `users` table updated with new status
+3. Entry inserted into `status_history`
+4. `last_status_update` timestamp updated
+
+### User Deletion
+
+1. User deletes account
+2. Row deleted from `users` table
+3. Cascade deletes all `status_history` entries
+4. Auth user deleted (handled by Supabase)
+
+## Security
+
+### Row Level Security
+
+All tables have RLS enabled with appropriate policies:
+
+- **Public Read**: User profiles are publicly readable
+- **Private Write**: Users can only modify their own data
+- **Cascade Deletes**: Deleting a user removes all related data
+
+### Indexes
+
+Indexes are created for:
+- Fast username lookups
+- Efficient status filtering
+- Quick user searches
+- Optimized history queries
+
+## Migration Scripts
+
+The database is set up using migration scripts in `scripts/`:
+
+1. **001_create_users_table.sql** - Creates users table and policies
+2. **002_create_user_trigger.sql** - Sets up automatic profile creation
+3. **003_create_status_history.sql** - Creates history tracking table
+
+Run these in order in the Supabase SQL Editor.
+
